@@ -1,3 +1,4 @@
+－－－－－－－－－－－－－－指标解释－－－－－－－－－－－－－－－－
 指标缩写	英文名	含义与计算
 pvr	ad page view ratio	有效检索比率，epv/pv ,精度0.0001
 acb	average bid price	平均点击出价 bid/click
@@ -38,9 +39,10 @@ eshow
 
 eshow：用户实际看到的，即曝光的广告条数
 shows：系统返回的，即asp统计的返回广告条数
-接入afd：
 
-待了解
+－－－－－－－－拍卖方式－－－－－－－－－－－－－－－－－
+原生自主投放目前采用的是vcg竞价模式，小频道是gsp竞价模式，具体大家可以多百度一下
 
-showq	show quality	展现质量度
-sme	Small and medium enterprises.	是中小型企业的意思.
+http://ju.outofmemory.cn/entry/116780 这个好懂一些 但是图挂了
+
+http://www.360doc.com/content/13/0708/15/2459_298475495.shtml
