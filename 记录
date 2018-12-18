@@ -1,0 +1,46 @@
+指标缩写	英文名	含义与计算
+pvr	ad page view ratio	有效检索比率，epv/pv ,精度0.0001
+acb	average bid price	平均点击出价 bid/click
+acp	average click price	平均点击价格，charge/click，精度0.0001元
+arpu	 	用户平均消费
+asn	average ad show number	平均展现条数，show/epv，精度0.01
+asp	Ads Select Platform	广告选择平台
+asq	 Andvance search quality	高级检索环节，计算得到的广告预估点击率
+bad click	 	
+非session结尾点击 && 与下一次点击间隔时间 < t_high（当前取值为24s，表示用户在页面停留时间较短）
+
+&& 与下一次点击间隔时间 > t_low（当前取值为7s，为了过滤连续点击行为）
+
+bid	bid	点击出价
+bsq	Basic search quality	基础检索环节，计算得到的广告预估点击率
+cash	cash	点击现金
+charge	charge	点击价格，也有叫csm的
+click	click	点击，计费点击,也有简写为clk
+clickq	click quality	点击满意率
+cpm1	cost per mille 1	千次检索收入 charge*1000/pv ,精度0.0001元
+cpm2	cost per mille 2	千次展现收入 charge*1000/show，精度0.0001元
+cpm3	cost per mille 3	千次有效检索收入 charge*1000/epv，精度0.0001元
+ctr1	click through rate 1	点击检索比率 click/pv
+ctr2	click through rate 2	点击展现比率 click/show
+ctr3	click through rate 2	点击有效检索比率click/epv
+epv	 	又叫adpv 有广告展现的pv
+ka	key account	在商业领域，主要指“重点客户”
+ns	new search	音乐、知道、贴吧等产品
+ps	protal search	门户搜索，网页搜索部负责百度网页搜索核心研发
+pv	page view	检索量
+pvr*asn	 	show/pv
+roi	Return On Investment	投资回报率
+show	show	广告展现量
+eshow	
+eshow
+
+未计入afd的请求：
+
+eshow：用户实际看到的，即曝光的广告条数
+shows：系统返回的，即asp统计的返回广告条数
+接入afd：
+
+待了解
+
+showq	show quality	展现质量度
+sme	Small and medium enterprises.	是中小型企业的意思.
