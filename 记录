@@ -1,0 +1,57 @@
+－－－－－－－－－－－－－－指标解释－－－－－－－－－－－－－－－－
+指标缩写	英文名	含义与计算
+pvr	ad page view ratio	有效检索比率，epv/pv ,精度0.0001
+acb	average bid price	平均点击出价 bid/click
+acp	average click price	平均点击价格，charge/click，精度0.0001元
+arpu	 	用户平均消费
+asn	average ad show number	平均展现条数，show/epv，精度0.01
+asp	Ads Select Platform	广告选择平台
+asq	 Andvance search quality	高级检索环节，计算得到的广告预估点击率
+bad click	 	
+非session结尾点击 && 与下一次点击间隔时间 < t_high（当前取值为24s，表示用户在页面停留时间较短）
+
+&& 与下一次点击间隔时间 > t_low（当前取值为7s，为了过滤连续点击行为）
+
+bid	bid	点击出价
+bsq	Basic search quality	基础检索环节，计算得到的广告预估点击率
+cash	cash	点击现金
+charge	charge	点击价格，也有叫csm的
+click	click	点击，计费点击,也有简写为clk
+clickq	click quality	点击满意率
+cpm1	cost per mille 1	千次检索收入 charge*1000/pv ,精度0.0001元
+cpm2	cost per mille 2	千次展现收入 charge*1000/show，精度0.0001元
+cpm3	cost per mille 3	千次有效检索收入 charge*1000/epv，精度0.0001元
+ctr1	click through rate 1	点击检索比率 click/pv
+ctr2	click through rate 2	点击展现比率 click/show
+ctr3	click through rate 2	点击有效检索比率click/epv
+epv	 	又叫adpv 有广告展现的pv
+ka	key account	在商业领域，主要指“重点客户”
+ns	new search	音乐、知道、贴吧等产品
+ps	protal search	门户搜索，网页搜索部负责百度网页搜索核心研发
+pv	page view	检索量
+pvr*asn	 	show/pv
+roi	Return On Investment	投资回报率
+show	show	广告展现量
+eshow	
+eshow
+
+未计入afd的请求：
+
+eshow：用户实际看到的，即曝光的广告条数
+shows：系统返回的，即asp统计的返回广告条数
+
+－－－－－－－－拍卖方式－－－－－－－－－－－－－－－－－
+原生自主投放目前采用的是vcg竞价模式，小频道是gsp竞价模式，具体大家可以多百度一下
+
+http://ju.outofmemory.cn/entry/116780 这个好懂一些 但是图挂了
+
+http://www.360doc.com/content/13/0708/15/2459_298475495.shtml
+－－－－－－－－－－－－快手商业化jd－－－－－－－－－－－－
+1.熟练掌握linux下面向对象编程； 
+2.(熟悉Java or C++) 熟悉机器学习、数据挖掘知识； 
+3.对数据敏感，有较强数据分析和解决问题能力； 
+4.有创业者基因：你渴望一个能够共同成长的团队，而不是找一份养家糊口的工作； 
+5. 有开发高品质产品、编写高质量代码的自我要求 。 
+加分项： 
+1、理解广告算法&业务&技术架构，具备一年以上搜索广告或展示广告相关经验；2、对技术有热情，动手能力强，参加过各类竞赛并取得较好成绩； 
+3、有高并发情况下的系统设计及实践经验。
