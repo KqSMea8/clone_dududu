@@ -1,0 +1,274 @@
+./configure --prefix=/home/disk3/sunfuhao/tools/ffmpeg_i_2 --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-gmp  --enable-gpl --enable-libfreetype --enable-libfribidi --enable-libgsm  --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse  --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxvid  --enable-shared --enable-version3 --enable-pthreads --enable-x86asm
+
+configuration: --prefix=/home/guweiqing/ffmpeglib/ffmpeg --enable-shared --enable-pthreads --enable-x86asm --enable-libx264 --enable-gpl --extra-cflags=-I/home/guweiqing/ffmpeglib/x264/include --extra-ldflags=-L/home/guweiqing/ffmpeglib/x264/lib
+
+./configure --enable-gpl --enable-version3 --enable-nonfree --enable-postproc --enable-libx264  --enable-shared --prefix=/home/disk3/sunfuhao/tools/ffmpeg_i_2 --enable-x86asm --enable-pthreads 
+
+ ./configure --prefix=/home/disk3/sunfuhao/tools/ffmpeg_i --enable-shared && make && make install
+
+ ~/tools/ffmpeg_i_2/bin/ffmpeg -f image2 -r 0.5 -i img%3d.jpg video.mp4
+
+~/tools/ffmpeg_i_2/bin/ffmpeg \
+-loop 1 -t 5 -i img001.jpg \
+-loop 1 -t 5 -i img002.jpg \
+-filter_complex \
+"[0:v]fade=t=out:st=4:d=1[v0]; \
+ [1:v]fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v1]; \
+ [v0][v1]join=n=2:v=1:a=0,format=yuv420p[v]" -map "[v]" out.mp4
+
+ ~/tools/ffmpeg_i_2/bin/ffmpeg -loop 1 -t 5 -i img001.jpg "[0:v]fade=t=out:st=4:d=1[v0]; format=yuv420p[v]" -map "[v]" out.mp4
+
+~/tools/ffmpeg_i_2/bin/ffmpeg \
+-loop 1 -t 5 -i img001.jpg \
+-loop 1 -t 5 -i img002.jpg \
+-loop 1 -t 5 -i img001.jpg \
+-loop 1 -t 5 -i img001.jpg \
+-loop 1 -t 5 -i img002.jpg \
+-filter_complex \
+"[0:v]fade=t=out:st=4:d=1[v0]; \
+ [1:v]fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v1]; \
+ [2:v]fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v2]; \
+ [3:v]fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v3]; \
+ [4:v]fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v4]; \
+ [v0][v1][v2][v3][v4]concat=n=5:v=1:a=0,format=yuv420p[v]" -map "[v]" out.mp4
+
+~/tools/ffmpeg_i_2/bin/ffmpeg \
+-t 5 -i img001.jpg \
+-t 5 -i img002.jpg \
+-t 5 -i img001.jpg \
+-t 5 -i img002.jpg \
+-filter_complex \
+"[0:v]zoompan=z='if(lte(zoom,1.0),1.5,max(1.001,zoom-0.0015))':d=125,fade=t=out:st=4:d=1[v0]; \
+ [1:v]zoompan=z='if(lte(zoom,1.0),1.5,max(1.001,zoom-0.0015))':d=125,fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v1]; \
+ [2:v]zoompan=z='if(lte(zoom,1.0),1.5,max(1.001,zoom-0.0015))':d=125,fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v2]; \
+ [3:v]zoompan=z='if(lte(zoom,1.0),1.5,max(1.001,zoom-0.0015))':d=125,fade=t=in:st=0:d=1,fade=t=out:st=4:d=1[v3]; \
+ [v0][v1][v2][v3]concat=n=4:v=1:a=0,format=yuv420p[v]" -map "[v]" -s "800x450" -t 40 ./out_fade.mp4
+
+根本
+<------------------------------------------------------------------------------------------------------------>
+~/tools/ffmpeg_i_2/bin/ffmpeg \
+-t 5 -i mohu_yuan03.jpg \
+-t 5 -i merge_yuan01.jpg \
+-t 5 -i merge_yuan02.jpg \
+-t 5 -i merge_yuan03.jpg \
+-filter_complex \
+"[0:v]zoompan=z='if(lte(zoom,1.0),1.1,max(1.001,1))':d=100,fade=t=out:st=3:d=1[v0]; \
+ [1:v]zoompan=z='if(lte(zoom,1.0),1.1,max(1.001,1))':d=100,fade=t=in:st=0:d=1,fade=t=out:st=3:d=1[v1]; \
+ [2:v]zoompan=z='if(lte(zoom,1.0),1.1,max(1.001,1))':d=100,fade=t=in:st=0:d=1,fade=t=out:st=3:d=1[v2]; \
+ [3:v]zoompan=z='if(lte(zoom,1.0),1.1,max(1.001,1))':d=100,fade=t=in:st=0:d=1[v3]; \
+ [v0][v1][v2][v3]concat=n=4:v=1:a=0,format=yuv420p[v]" -map "[v]" -s "1280x720" -t 100 ./out_fade.mp4
+
+<------------------------------------------------------------------------------------------------------------>
+~/tools/ffmpeg_i_2/bin/ffmpeg img001.jpg -vf "drawtext=text='Test Text':fontcolor=white:fontsize=75:x=1002:y=100:" output.jpg
+/图片尺寸
+~/tools/ffmpeg_i_2/bin/ffmpeg -i  img001.jpg -vf "scale=780:540/a" out.jpg
+//加水印
+~/tools/ffmpeg_i_2/bin/ffmpeg -i mohu.jpg -vf "movie=img002.jpg,scale=450:254[watermask];[in][watermask] overlay=100:100[out]" -y d3.jpg
+//模糊
+~/tools/ffmpeg_i_2/bin/ffmpeg -i img001.jpg  -vf smartblur=5:0.8:0 blurred_halftone.png
+~/tools/ffmpeg_i_2/bin/ffmpeg -i ./out_fade.mp4 -vf "movie=img003.jpg[logo];[in][logo]overlay=x='if(gte(t\,2)\,((t-2)*80)-w\,NAN)'" test.mp4
+//写字
+~/tools/all_ffmpeg/ffmpeg_tool/ffmpeg -i mohu1.jpg -vf "drawtext=fontfile=/home/disk3/sunfuhao/feed/vfs/ffmpeg/demo1/simsun.ttf: text=West这是WestWestWest咋了:x=(main_w/2-text_w/2):y=200:fontsize=60:fontcolor=white@1:shadowy=1" drawtext2.jpg 
+//动画
+~/tools/ffmpeg_i_2/bin/ffmpeg -i ./out_fade.mp4 -vf \
+ "movie=img001.jpg[logo];[in][logo]overlay=x='if(gte(t\,3)\,((t-3)*100)-w/2-100\,NAN)'[out]" \
+ "movie=img001.jpg[logo];[in][logo]overlay=x='if(gte(t\,3)\,((t-3)*100)-w/2-100\,NAN)'[out]" \
+ \test.mp4
+ //动画2.0
+~/tools/ffmpeg_i_2/bin/ffmpeg -i ./demo1/end_test.mp4 \
+ -i img001.jpg \
+ -i img002.jpg \
+ -i img003.jpg \
+ -filter_complex \
+"[0:v]overlay=x='if(gte(t,0.2),t*50,w)':y=30,fade=t=out:st=3:d=0.5[tl];[tl] \
+ [1:v]overlay=x='if(gte(t,1),t*70,w)':y=120[tc];[tc] \
+ [2:v]overlay=x='if(gte(t,2),t*100,w)':y=230[tr];[tr] \
+ [3:v]overlay=x='if(gte(t,3),t*120,w)':y=400[out]" \
+-map "[out]" output.mp4 
+ 
+ //test
+淡出
+~/tools/ffmpeg_i_2/bin/ffmpeg \
+-r 0.3 -i img001.jpg \
+-filter_complex \
+"[0:v]zoompan=z='if(lte(zoom,1.0),1,max(1.01,1))':d=100,fade=t=out:st=3:d=1[v0]; \
+ [v0]concat=n=1:v=1:a=0,format=yuv420p[v]" -map "[v]" -s "1280x720" -t 100 ./out_fade.mp4
+ 淡入
+ ~/tools/ffmpeg_i_2/bin/ffmpeg \
+-r 0.3 -i img001.jpg \
+-filter_complex \
+"[0:v]zoompan=z='if(lte(zoom,1.0),1,max(1.01,1))':d=100,fade=t=in:st=0.5:d=2[v0]; \
+ [v0]concat=n=1:v=1:a=0,format=yuv420p[v]" -map "[v]" -s "1280x720" -t 100 ./out_fade.mp4
+动画
+~/tools/ffmpeg_i_2/bin/ffmpeg -i ./out_fade.mp4 -vf \
+ "movie=img003.jpg[logo];[in][logo]overlay=x='if(lte(t\,1)\,100\,if(gte(t\,2)\,200,NAN))':y=50" \
+ \test.mp4
+ 合并
+ ~/tools/ffmpeg_i_2/bin/ffmpeg -i "concat:testtit.mpg|testone.mpg|testtwo.mpg|testtwo.mpg" -c copy daizhuanma.mpg
+
+ffmpeg -i input1.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate1.ts
+ffmpeg -i input2.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate2.ts
+ffmpeg -i "concat:intermediate1.ts|intermediate2.ts" -c copy -bsf:a aac_adtstoasc output.mp4
+//转吗
+~/tools/ffmpeg_i_2/bin/ffmpeg -i daizhuanma.mpg -vcodec mpeg4 end_test.mp4
+~/tools/ffmpeg_i_2/bin/ffmpeg -i daizhuanma.mpg -c:v libx264 -c:a libfaac -crf 20 -preset:v veryslow end_test.mp4
+
+生成视频
+~/tools/ffmpeg_i_2/bin/ffmpeg -t 10 -i mohu_yuan01.jpg mpg.mpg
+~/tools/ffmpeg_i_2/bin/ffmpeg -i mpg.mpg -vf fps=fps=25 mpg2.mpg
+~/tools/ffmpeg_i_2/bin/ffmpeg -i stepone_tit.mp4 -vcodec mpeg4 testtit.mpg
+放大
+~/tools/ffmpeg_i_2/bin/ffmpeg \
+-r 0.3 -i  img001.jpg \
+-filter_complex \
+"[0:v]zoompan=z='if(gte(zoom,1.05),zoom+0.01,zoom+0.001)':d=60,fade=t=out:st=0.1:d=100[v0]; \
+[v0]concat=n=1:v=1:a=0,format=yuv420p[v]" -map "[v]" -s "1280x720" -t 100 test_suofang.mp4
+
+音频
+~/tools/ffmpeg_i_2/bin/ffmpeg -i end_test.mp4  -i 15s.mp3 audio.mp4
+~/tools/ffmpeg_i_2/bin/ffmpeg -i 15s.mp3 -af 'afade=t=in:ss=0:d=3,afade=t=out:st=27:d=3' out.mp3
+
+~/tools/ffmpeg_i_2/bin/ffmpeg -i godemo_2.mp4 -itsoffset 00:00:00.4 -i moyin.mp3 -c:v libx264 -shortest audio.mp4
+~/tools/ffmpeg_i_2/bin/ffmpeg -i 544bb6ba72a7e.mp3 -vn -acodec copy -ss 00:00:15 -t 00:00:30 audio6.mp3
+<------------------------------------------------------------------------------------------------------------>
+~/tools/ffmpeg_i_2/bin/ffmpeg \
+ -i ./mohu/yuan01.jpg \
+ -i ./mohu/yuan01.jpg \
+ -i ./mohu/yuan02.jpg \
+ -i ./mohu/yuan03.jpg \
+ -filter_complex \
+ "[0:v]scale=-2:10*ih,zoompan=z='if(gte(zoom,1.05),zoom+0.01,zoom+0.001)':d=65:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom)',scale=-2:720,fade=t=out:st=2.8:d=1[v0]; \
+ [1:v]zoompan=z='if(gte(zoom,2),zoom+0.012,zoom)':d=65,fade=t=in:st=0:d=1,fade=t=out:st=1.5:d=2[v1]; \
+ [2:v]zoompan=z='if(gte(zoom,2),zoom+0.012,zoom)':d=100,fade=t=in:st=0:d=0.8,fade=t=out:st=3.1:d=0.5[v2]; \
+ [3:v]zoompan=z='if(gte(zoom,2),zoom+0.012,zoom)':d=170,fade=t=in:st=0:d=0.3[v3]; \
+ [v0][v1][v2][v3]concat=n=4:v=1:a=0,format=yuv420p[v]" -map "[v]" -s "1280x720" -vb 2M -r 100 -t 15 ./godemo.mp4
+
+~/tools/ffmpeg_i_2/bin/ffmpeg -i ./godemo.mp4 \
+ -i ./openimg/yuan01.jpg \
+ -i ./openimg/yuan02.jpg \
+ -i ./openimg/yuan03.jpg \
+ -filter_complex \
+"[0:v]overlay=x='if(gte(t\,2.5),\
+		if(gte(t,4.2),\
+			if(gte(t,6),(-w), (-100*(t-4.2)-400*(t-4.2)*(t-4.2)+270))\
+		,270) \
+ 	,(-w)
+ )'\
+ :y=115[tl];[tl] \
+ [2:v]overlay=x='if(lte(t\,4.2),(w+1080), \
+ 	if(gte(t,6),\
+ 	    if(gte(t,8.2),((-100*(t-8.2)-400*(t-8.2)*(t-8.2)+270)),270) \
+ 	,(w+1080-113.3*(t-4.2)-400*(t-4.2)*(t-4.2))) \
+ )'\
+ :y=115[tc];[tc] \
+ [3:v]overlay=x='if(lte(t\,4.2),(-w), \
+ 	if(gte(t,6),\ 
+ 	    if(gte(t,8.2),\ 
+ 	    	if(gte(t,10),270,(w+1080-113.3*(t-8.2)-400*(t-8.2)*(t-8.2))) 
+ 	    \,-w) \
+ 	,(-w)) \
+ )':y=115[out]" \
+-map "[out]" godemo_2.mp4 
+
+500*(t-4.2)+52.4*(t-4.2)*(t-4.2)+270
+if(lte(t\,1.5)\,((1348.33*t-450*t*t)-w)\,((1.5*674)-w)
+<---------------------------------------------------------------------------------------------------------------->
+
+~/tools/ffmpeg_i_2/bin/ffmpeg -r 25 -i ./openimg/yuan01.jpg -filter_complex "scale=-2:10*ih,zoompan=z='if(gte(zoom,1.2),zoom+0.01,zoom+0.003)':d=100:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',scale=-2:720"  -y -shortest -c:v libx264 image_output.mp4
+
+fade=t=in:st=3.8:d=0.4
+~/tools/ffmpeg_i_2/bin/ffmpeg -loop 1 -framerate 10 -i img001.jpg -t 30 -pix_fmt yuv420p out.mp4
+
+
+overlay=enable='between(t\,1,3)',
+
+smartblur = enable='between(t,10,3*60)',
+ffmpeg  -i  /home/disk3/sunfuhao/feed/vfs/ffmpeg/out.mp4  -vf  drawtext=fontfile=arial.ttf:text=welcome test.mp4
+
+overlay=x='if(gte(t,2), -w+(t-2)*20, NAN)':y=0
+ffmpeg -i video.mp4 -i image.png -filter_complex "[0:v][1:v] overlay=25:25:enable='between(t,0,20)'" -pix_fmt yuv420p -c:a copy output.mp4
+
+ffmpeg -i input.mp4 -i image.png \
+-filter_complex "[0:v][1:v] overlay=25:25:enable='between(t,0,20)'" \
+-pix_fmt yuv420p -c:a copy \
+output.mp4
+
+ffmpeg -y -i jiushu.mpg -acodec libfaac -b:a 30k -ar 44100 -r 15 -ac 2 -s 480x272 -vcodec libx264 -refs 2 -x264opts keyint=150:min-keyint=15 -vprofile baseline -level 20 -b:v 200k -vf "drawtext=fontfile=/mnt/hgfs/zm/simhei.ttf: text='来源：迅雷':x=100:y=x/dar:draw='if(gt(n,0),lt(n,250))':fontsize=24:fontcolor=yellow@0.5:shadowy=2"  drawtext.mp4
+
+~/tools/ffmpeg_i_2/bin/ffmpeg -f image2 -i mohu_yuan01.jpg step_tit.mpg
+
+例子
+带源音频的视频淡出并且在淡出之前最后几帧突然放大加入纯色然后支持用户输入的文字从下向上滑动到中间然后文字最后几帧突然放大然后下一个视频淡入
+ 
+说明
+带源音频的视频淡出并且在淡出之前最后几帧突然放大加入纯色然后支持用户输入的文字从下向上滑动到中间然后文字最后几帧突然放大然后下一个视频淡入
+ 
+滤镜参数使用
+-f lavfi 设备与 -i color 创建显示文字的画布
+scale： 统一图像分辨率
+fade： 淡入淡出滤镜
+setpts： 视频偏移起始时间
+overlay： 多图层操作
+afade： 音频淡入淡出滤镜
+amerge： 多音频轨道合并
+adelay： 音频多声道延迟播放处理
+drawtext： 支持输入文字处理
+zoompan： 图像放大处理
+gte 大于等于、 max、 between、 if、 lte小于等于、 zoom 内置函数
+upscale 
+ 
+    public String getCommand_zoominout() {
+    StringBuilder stringBuilder = new StringBuilder();
+    // ffmpeg -loop 1 -i image_1.jpg -vf "zoompan=z='if(lte(zoom,1.0),
+    // 1.5,max(1.001,zoom-0.0015))':d=125" -c:v libx264 -t 5 -s "800x450"
+    // zoomout.mp4
+    stringBuilder.append("-loop 1 -i ");
+    stringBuilder.append(folder.getAbsolutePath());
+    stringBuilder.append("/IMG%d.jpg");
+    stringBuilder.append(" -i " + targetsongsfolder.getAbsolutePath());
+    stringBuilder.append(" -strict -2 ");
+
+    stringBuilder.append(" -vf ");
+    stringBuilder
+            .append("zoompan=z='if(lte(zoom,1.0),1.5,max(1.001,zoom-0.0015))':d=125");
+    stringBuilder.append(" -c:v libx264 -t 15 -s ");
+    stringBuilder.append("800x400 ");
+    stringBuilder.append(outputimage.getAbsolutePath());
+
+    return stringBuilder.toString();
+}
+
+ffplay -f lavfi -i color=c=white -vf ^ drawtext="fontfile=arial.ttf:text='Good day':x=(w-tw)/2:y=(h-th)/2"
+
+停在中间
+
+放大，移动(不同时间，不同对象)，淡入淡出，裁剪，添加边框，模糊
+
+
+文字
+转场
+音乐
+
+入场
+转场
+出场
+
+标题出场特效
+转场特效
+尾场
+音乐
+
+1，以上是否都支持
+2，图片缩小点显示保证画质
+3，视频时长控制在15s
+4，物料有三图是否可行，模版效果支持定制?
+5，视频生成成功率
+6，视频质量如何(卡顿，水印)
+6，视频生成处理量，需要多少机器
+7，视频导出及存储方案
+
+模版
+
+
+ffmpeg -i input.mp4 -i image1.png -i image2.png -filter_complex 
+[1:v]scale=100:100[img1];[2:v]scale=1280:720[img2];[0:v][img1]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2[bkg];[bkg][img2]overlay=0:0 -y output.mp4 
