@@ -9,7 +9,11 @@ import urllib
 import urllib2
 import random
 import json
+import base64,json,urllib,urllib2
+import datetime
 import time
+import hashlib
+import requests 
 
 
 def gblur(img_data, kernel_size=(155, 155), sigma=10):
@@ -294,6 +298,7 @@ def req_clarity_bvc(img_data):
         req_json = json.dumps(req_array)
 
         url = conf.api['req_clarity_bvc']
+	url = random.choice(['http://10.156.86.15:8134/GeneralClassifyService/classify','http://10.156.86.15:8135/GeneralClassifyService/classify'])
         req = urllib2.Request(url) 
         req.add_header('Content-Type', 'application/json')
     	response = None
@@ -318,3 +323,121 @@ def req_clarity_bvc(img_data):
                 util.print_err(e)
                 time.sleep(1)
         return res 
+def req_meiguan_aes(img_data):
+    #with open(img_file_path) as f:
+	request_pb = general_classify_client.GeneralClassifyRequest()
+    	request_pb.image = img_data
+   	classify_type = request_pb.classify_type.add()
+    	classify_type.type_name = 'aesthetic'
+    	classify_type.topnum = 1
+    	request_str = request_pb.SerializePartialToString()
+
+        logid = random.randint(1000000, 100000000)
+        #requestinfo = {
+        #        'image': base64.b64encode(f.read()),
+        #        }
+        #data = json.dumps(requestinfo)
+
+        req_array = {
+                        'appid': '123456',
+                        'logid': logid,
+                        'format': 'json',
+                        'from': 'test-python',
+                        'cmdid': '123',
+                        'clientip': '0.0.0.0',
+                        'data': base64.b64encode(request_str),
+                    }
+        req_json = json.dumps(req_array)
+
+        url = "http://10.156.86.15:8124/GeneralClassifyService/classify" 
+        req = urllib2.Request(url) 
+        req.add_header('Content-Type', 'application/json')
+    	response = None
+        for i in range(1, 50):
+            try:
+                response = urllib2.urlopen(req, req_json, 1)
+		res_str_tmp = response.read()
+    		json_res = json.loads(res_str_tmp)
+    		if "err_no" not in json_res:
+       			return "no err_no"
+
+    		if json_res["err_no"] != 0:
+        		return "err_no is not 0\t" + res_str_tmp
+                res_pb = general_classify_client.GeneralClassifyResponse()
+    		res_pb.ParseFromString(base64.b64decode(json_res['result']))
+		for result in res_pb.result:
+		        if result.type_name == "aesthetic":
+				print result.probability[0]
+				res = (result.probability[0]+6)/12
+		break
+            except Exception as e:
+                util.print_err(e)
+                time.sleep(1)
+        return res
+
+class InnerToken:
+    TOKEN_TYPE = '11'
+    timestamp = ''       
+
+    def sign(self, appid, uid, sk):
+        md5 = hashlib.md5()
+        self.timestamp = str(time.mktime(datetime.datetime.now().timetuple())).split('.')[0]
+        md5.update(self.timestamp + str(uid) + str(appid) + str(sk))
+        return md5.hexdigest()
+
+    def generateToken(self, appid, uid, sk):
+        sign = self.sign(appid, uid, sk);
+        token = self.TOKEN_TYPE + '.' + sign + '.' + self.timestamp + '.' + str(uid) + "-" + str(appid)
+        return token
+def test_ocr_general(filename):
+    obj = InnerToken()
+    token = obj.generateToken(15319954,1884599608,'3pHvdhszybPYLA41UxgfVEN6HK0FUhQh')
+    postData = {
+        'image': filename,
+        'access_token' : token 
+    }
+
+    strUrl = "http://inner.openapi.baidu.com/rest/2.0/vis-ocr/v1/ocr/webimage_s1"
+    postData = urllib.urlencode(postData)
+
+    req = urllib2.Request(strUrl, postData)
+    response = urllib2.urlopen(req).read()
+    return response
+
+def lingshi_ocr_general(filename):
+   # token = "715de990-0b36-5b1f-8bbc-99af6045c3d9" 
+   # postData = {
+   #     'input_message':{'img_base64':filename,"passthrough_field":"key"},
+   #     'auth_key' : token,
+   #     'feature_list': [{"feature_name": "FEATURE_VIS_OCR_V4"}],
+   #     "business_name": "feed_video_ocr",
+   # }
+
+   # strUrl = "http://group.xvision-xvisionproxy.xVision.all.serv:8089/xvision/feat_sync"
+   # postData = urllib.urlencode(postData)
+
+   # req = urllib2.Request(strUrl, postData)
+   # response = urllib2.urlopen(req).read()
+   # print response,222 
+   # return 
+   # print response
+
+    url = "http://group.xvision-xvisionproxy.xVision.all.serv:8089/xvision/feat_sync"
+    data_dict = {
+        "business_name": "feed_video_ocr", 
+            "resource_key": "test.jpg",
+            "input_message": {
+                "passthrough_field": "key", 
+                    "img_base64": filename 
+            }, 
+        "auth_key": "715de990-0b36-5b1f-8bbc-99af6045c3d9",
+            "feature_list": [
+            {"feature_name": "FEATURE_VIS_OCR_V4"}
+        ]
+    } 
+    data = json.dumps(data_dict)
+    headers = {"Content-Type": "application/json"}
+    request = urllib2.Request(url, data, headers)
+    response = urllib2.urlopen(request)
+    #response.close()
+    return response.read()
